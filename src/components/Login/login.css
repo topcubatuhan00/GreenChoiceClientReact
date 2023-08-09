@@ -1,0 +1,18 @@
+.banner-image {
+  width: 100% !important;
+  height: 200px;
+  object-fit: cover;
+}
+
+.outDivLogin {
+  padding: 100px;
+}
+
+@media only screen and (max-width: 560px) {
+    .outDivLogin {
+        padding: 50px;
+      }
+      .banner-image{
+        height: 250px;
+      }
+}

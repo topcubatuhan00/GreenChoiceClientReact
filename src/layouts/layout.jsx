@@ -30,13 +30,14 @@ export default function Layout() {
 	}, [navigate])
 
 	return (
-		<Container>
+		<Container style={{height: '100vh'}}>
 			<Row>
 				<div className="m-0 p-0">
 					{
 						flag && <Navbar />
 					}
 				</div>
+				<Navbar />
 				<Col md={12} className="m-0 p-0 w-100">
 					<Routes>
 						<Route exact path="/" element={<Home />}/> 
