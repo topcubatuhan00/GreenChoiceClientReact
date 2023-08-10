@@ -1,9 +1,9 @@
-.baseContainer{
-    height: 100vh;
-}
-
 .contentContainer{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 20px 0;
+    height: calc(100vh - 196px);
+    max-height: calc(100vh - 196px);
 }
+

@@ -16,6 +16,15 @@ class GenericApiService {
         }
     }
 
+    async put(path, data) {
+        try {
+            const response = await axios.put(`${baseURL}${path}`, data);
+            return response;
+        } catch (error) {
+            return error;
+        }
+    }
+
     async get(path) {
         try {
             const token = localStorage.getItem("token");

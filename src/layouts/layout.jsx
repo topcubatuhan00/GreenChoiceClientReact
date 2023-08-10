@@ -38,7 +38,7 @@ export default function Layout() {
 						flag && <Header />
 					}
 				</div>
-				<Col md={12} className="m-0 p-0 w-100 contentContainer">
+				<Col md={12} className="w-100 contentContainer">
 					<Routes>
 						<Route exact path="/" element={<Home />}/> 
 						<Route exact path="/login" element={<Login />}/> 

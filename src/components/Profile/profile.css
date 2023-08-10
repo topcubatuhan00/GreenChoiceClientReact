@@ -1,0 +1,35 @@
+.container {
+    background-color: #9DC08B;
+    border-radius: 16px 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.formDiv {
+    width: 75vh;
+}
+
+.btn {
+    background-color: #40513B;
+    color: #fff !important;
+    font-size: 18px;
+    transition: 1s;
+}
+
+.btn:hover{
+    background-color: #33432e;
+}
+
+@media only screen and (max-width: 768px) {
+    .formDiv {
+        width: 100%;
+        margin: 0;
+    }
+
+    .col-md.text-center.mx-5,
+    .formDiv {
+        margin: 0 !important;
+    }
+}
