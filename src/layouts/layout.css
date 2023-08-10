@@ -1,0 +1,9 @@
+.baseContainer{
+    height: 100vh;
+}
+
+.contentContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import "./layout.css";
 import { Container, Row, Col } from "react-bootstrap";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { Navbar } from './../components/Navbar/navbar';
+import { Header } from './../components/Navbar/navbar';
 import { Home } from './../components/Home/home';
 import { Login } from './../components/Login/login';
 import { Register } from './../components/Register/register';
@@ -30,15 +30,14 @@ export default function Layout() {
 	}, [navigate])
 
 	return (
-		<Container style={{height: '100vh'}}>
+		<Container className="baseContainer">
 			<Row>
 				<div className="m-0 p-0">
 					{
-						flag && <Navbar />
+						flag && <Header />
 					}
 				</div>
-				<Navbar />
-				<Col md={12} className="m-0 p-0 w-100">
+				<Col md={12} className="m-0 p-0 w-100 contentContainer">
 					<Routes>
 						<Route exact path="/" element={<Home />}/> 
 						<Route exact path="/login" element={<Login />}/> 

@@ -2,17 +2,22 @@
   width: 100% !important;
   height: 200px;
   object-fit: cover;
+  border-radius: 16px 64px;
 }
 
 .outDivLogin {
   padding: 100px;
+  width: 75%;
+  background-color: #EDF1D6;
+  border-radius: 16px 64px;
 }
 
 @media only screen and (max-width: 560px) {
-    .outDivLogin {
-        padding: 50px;
-      }
-      .banner-image{
-        height: 250px;
-      }
+  .outDivLogin {
+    padding: 50px;
+  }
+
+  .banner-image {
+    height: 250px;
+  }
 }
