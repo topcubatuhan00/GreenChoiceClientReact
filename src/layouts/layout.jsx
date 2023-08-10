@@ -8,6 +8,7 @@ import { Login } from './../components/Login/login';
 import { Register } from './../components/Register/register';
 import { PasswordRecovery } from './../components/PasswordRecovery/password-recovery';
 import { Footer } from './../components/Footer/footer';
+import { Profile } from "../components/Profile/profile";
 
 export default function Layout() {
 
@@ -30,7 +31,7 @@ export default function Layout() {
 	}, [navigate])
 
 	return (
-		<Container className="baseContainer">
+		<div className="baseContainer">
 			<Row>
 				<div className="m-0 p-0">
 					{
@@ -43,6 +44,8 @@ export default function Layout() {
 						<Route exact path="/login" element={<Login />}/> 
 						<Route exact path="/register" element={<Register />}/> 
 						<Route exact path="/password-recovery" element={<PasswordRecovery />}/> 
+						<Route exact path="/settings" element={<PasswordRecovery />}/> 
+						<Route exact path="/profile" element={<Profile />}/> 
 					</Routes>
 				</Col>
 				<div className="m-0 p-0">
@@ -51,6 +54,6 @@ export default function Layout() {
 					}
 				</div>
 			</Row>
-		</Container>
+		</div>
 	);
 }
