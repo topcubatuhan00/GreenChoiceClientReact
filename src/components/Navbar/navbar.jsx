@@ -26,7 +26,7 @@ export const Header = () => {
 
 	return (
 		<>
-			<Navbar key={false} expand={false} className="bg-body-tertiary mb-3">
+			<Navbar fixed="top" key={false} expand={false} className="bg-body-tertiary mb-3">
 				<Container fluid>
 					<Navbar.Brand className="text-white" href="/">
 						GreenChoice
