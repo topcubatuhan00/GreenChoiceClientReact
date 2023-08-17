@@ -73,7 +73,7 @@ export const Header = () => {
 									</>
 								</Nav.Link>
 								<Nav.Link onClick={() => handleLogout()} className="navCenter navColor">
-									<i class="fas fa-sign-out-alt"></i>
+									<i className="fas fa-sign-out-alt"></i>
 									<span>Logout</span>
 								</Nav.Link>
 							</Nav>

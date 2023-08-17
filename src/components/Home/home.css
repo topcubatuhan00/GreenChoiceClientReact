@@ -3,3 +3,11 @@
     justify-content: center;
     margin-top: 20px;
 }
+
+.colorizedBack{
+    background-color: #40513B;
+    padding: 7px;
+    color: #EDF1D6;
+    border-radius: 10px;
+    font-size: 18px !important;
+}

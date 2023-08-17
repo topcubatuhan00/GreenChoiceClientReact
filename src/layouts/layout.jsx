@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from "react";
 import "./layout.css";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { Header } from './../components/Navbar/navbar';
 import { Home } from './../components/Home/home';
 import { Login } from './../components/Login/login';
 import { Register } from './../components/Register/register';
 import { PasswordRecovery } from './../components/PasswordRecovery/password-recovery';
-import { Footer } from './../components/Footer/footer';
 import { Profile } from "../components/Profile/profile";
 
 export default function Layout() {
@@ -46,6 +45,7 @@ export default function Layout() {
 						<Route exact path="/password-recovery" element={<PasswordRecovery />}/> 
 						<Route exact path="/settings" element={<PasswordRecovery />}/> 
 						<Route exact path="/profile" element={<Profile />}/> 
+						<Route exact path="/product" element={<Profile />}/> 
 					</Routes>
 				</Col>
 				{/* <div className="m-0 p-0">

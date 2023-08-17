@@ -3,333 +3,123 @@ import "./home.css"
 import GenericApiService from './../../services/GenericApiService';
 
 export const Home = () => {
-
-	const [bestProductsCount, setBestProductsCount] = useState(0)
-	const [bestCommentsCount, setBestCommentsCount] = useState(0)
-	const [bestStoresCount, setBestStoresCount] = useState(0)
-
-	const [products, setProducts] = useState([])
-	const [stores, setStores] = useState([])
-	const [comments, setComments] = useState([])
-
-
+	const [bestProductsCount, setBestProductsCount] = useState();
+	const [bestCommentsCount, setBestCommentsCount] = useState();
+	const [bestStoresCount, setBestStoresCount] = useState();
+	const [products, setProducts] = useState([]);
+	const [stores, setStores] = useState([]);
+	const [comments, setComments] = useState([]);
 	const genericApiService = new GenericApiService();
 
 	useEffect(() => {
+		const fetchData = async () => {
+			const res = await genericApiService.get('/Settings/GetAll?PageNumber=1&PageSize=100');
+			const items = res.data.data.items;
 
-		const getSettings = async () => {
-			const res = await genericApiService.get('/Settings/GetAll?PageNumber=1&PageSize=100')
-			var besProductsCount = res.data.data.items.find(item => item.name === "BestProductsViewCount");
-			var bestCommentsCount = res.data.data.items.find(item => item.name === "BestCommentsViewCount");
-			var bestStoresCount = res.data.data.items.find(item => item.name === "BestStoresViewCount");
+			const bestProducts = items.find(item => item.name === "BestProductsViewCount");
+			const bestComments = items.find(item => item.name === "BestCommentsViewCount");
+			const bestStores = items.find(item => item.name === "BestStoresViewCount");
 
-			setBestProductsCount(besProductsCount > 0 ? besProductsCount : 10);
-			setBestCommentsCount(bestCommentsCount > 0 ? bestCommentsCount : 10);
-			setBestStoresCount(bestStoresCount > 0 ? bestStoresCount : 10);
-		}
+			setBestProductsCount(bestProducts ? bestProducts.value : 10);
+			setBestCommentsCount(bestComments ? bestComments.value : 10);
+			setBestStoresCount(bestStores ? bestStores.value : 10);
+		};
 
-		getSettings()
-	}, [genericApiService])
+		fetchData();
+	}, []);
 
 	useEffect(() => {
-		const getProducts = async () => {
-			const res = await genericApiService.get('/Product/GetAll?PageNumber=1&PageSize=' + bestProductsCount)
-			setProducts(res?.data?.data.items);
-		}
+		const fetchData = async () => {
+			const res = bestProductsCount > 0 && await genericApiService.get('/Product/GetAll?PageNumber=1&PageSize=' + bestProductsCount);
+			if (res.code !== "ERR_NETWORK" && res.data !== null && res.data !== undefined) {
+				setProducts(res.data.data.items);
+			}
+		};
 
-		const getComments = async () => {
-			const res = await genericApiService.get('/Comment/GetAll?PageNumber=1&PageSize=' + bestCommentsCount)
-			setComments(res?.data?.data.items);
-		}
+		fetchData();
+	}, [bestProductsCount, genericApiService]);
 
-		const getStores = async () => {
-			const res = await genericApiService.get('/Store/GetAll?PageNumber=1&PageSize=' + bestStoresCount)
-			setStores(res?.data?.data.items);
-		}
+	useEffect(() => {
+		const fetchData = async () => {
+			const res = bestCommentsCount > 0 && await genericApiService.get('/Comment/GetAll?PageNumber=1&PageSize=' + bestCommentsCount);
+			if (res.code !== "ERR_NETWORK" && res.data !== null && res.data !== undefined) {
+				setComments(res.data.data.items);
+			}
+		};
 
-		getProducts();
-		getComments();
-		getStores();
-	}, [bestProductsCount, genericApiService, bestCommentsCount, bestStoresCount])
+		fetchData();
+	}, [bestCommentsCount, genericApiService]);
 
+	useEffect(() => {
+		const fetchData = async () => {
+			const res = bestStoresCount > 0 && await genericApiService.get('/Store/GetAll?PageNumber=1&PageSize=' + bestStoresCount);
+			if (res.code !== "ERR_NETWORK" && res.data !== null && res.data !== undefined) {
+				setStores(res.data.data.items);
+			}
+		};
+
+		fetchData();
+	}, [bestStoresCount, genericApiService]);
 	return (
 		<div className='subHome'>
 			<h1 className='mt-5 mx-1 text-center'>Best Products</h1>
 			<div className="row">
-
 				{
 					products?.map((product) => (
-						<div className="col-sm">
+						<div key={product.id} className="col-sm">
 							<div className="card" style={{ width: "18rem" }}>
-								<img className="card-img-top" alt='' />
 								<div className="card-body">
-									<h5 className="card-title">{product.name} | {product.brandName}</h5>
-									<p className="card-text">{product.description}</p>
-									<span className="card-text">{product.barcode}</span> <p></p>
-									<a href="/" className="btn btn-primary">Go somewhere</a>
+									<p className="card-text text-center w-100">{product.name}</p>
+									<hr />
+									<span className="d-flex justify-content-between align-items-center w-100">
+										<div className='colorizedBack'><i className="fas fa-globe fs-5 mx-2"></i>{product.brandName}</div>
+										<div className='colorizedBack'><i className='fas fa-user fs-5 mx-2'></i>{product.creatorName}</div>
+									</span>
 								</div>
 							</div>
 						</div>
 					))
-
 				}
-
 			</div>
 
 			<h1 className='mt-5 mx-1 text-center'>Best Stores</h1>
 			<div className="row">
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
+				{
+					stores?.map((stores) => (
+						<div key={stores.id} className="col-sm">
+							<div className="card" style={{ width: "18rem" }}>
+								<div className="card-body">
+									<p className="card-text text-center w-100">{stores.name}</p>
+									<hr />
+
+									<div className='colorizedBack w-100'><i className="fas fa-phone fs-5 mx-2"></i>{stores.phoneNumber}</div>
+									<div className='colorizedBack mt-2'><i className='fas fa-home fs-5 mx-2'></i>{stores.address}</div>
+
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className="row">
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className="row">
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
+					))
+				}
 			</div>
 
 			<h1 className='mt-5 mx-1 text-center'>Best Comments</h1>
 			<div className="row">
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
+				{
+					comments?.map((comment) => (
+						<div key={comment.id} className="col-sm">
+							<div className="card" style={{ width: "18rem" }}>
+								<div className="card-body">
+									<p className="card-text text-center w-100">{comment.text}</p>
+									<hr />
+									<span className="d-flex justify-content-between align-items-center w-100">
+										<div className='colorizedBack'><i className="fas fa-bookmark fs-5 mx-2"></i>{comment.productName}</div>
+										<div className='colorizedBack'><i className='fas fa-user fs-5 mx-2'></i>{comment.userName}</div>
+									</span>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className="row">
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className="row">
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
-				<div className="col-sm">
-					<div className="card" style={{ width: "18rem" }}>
-						<img className="card-img-top" alt='' />
-						<div className="card-body">
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-							<a href="/" className="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-				</div>
+					))
+				}
 			</div>
 		</div>
 	)
