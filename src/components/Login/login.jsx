@@ -45,8 +45,9 @@ export const Login = () => {
 				<form onSubmit={handleSubmit}>
 					<img
 						className="mb-4 banner-image"
-						src="https://i.hizliresim.com/d5ke31k.png"
+						src="./logo-black.png"
 						alt=""
+						width={100}
 					/>
 					<h1 className="h3 mb-3 fw-normal">Please sign in</h1>
 

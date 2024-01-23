@@ -11,3 +11,20 @@
     border-radius: 10px;
     font-size: 18px !important;
 }
+
+.colorizedBackOwner{
+    background-color: #40513b80;
+    border-radius: 20px 10px;
+    padding: 5px;
+    color: #40513B;
+    margin: 10px;
+    text-align: center;
+}
+
+    .bestItemsSpan{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        flex-wrap: wrap;
+    }

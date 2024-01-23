@@ -8,6 +8,7 @@ import { Login } from './../components/Login/login';
 import { Register } from './../components/Register/register';
 import { PasswordRecovery } from './../components/PasswordRecovery/password-recovery';
 import { Profile } from "../components/Profile/profile";
+import { Settings } from "../components/Settings/Settings";
 
 export default function Layout() {
 
@@ -43,7 +44,7 @@ export default function Layout() {
 						<Route exact path="/login" element={<Login />}/> 
 						<Route exact path="/register" element={<Register />}/> 
 						<Route exact path="/password-recovery" element={<PasswordRecovery />}/> 
-						<Route exact path="/settings" element={<PasswordRecovery />}/> 
+						<Route exact path="/settings" element={<Settings />}/> 
 						<Route exact path="/profile" element={<Profile />}/> 
 						<Route exact path="/product" element={<Profile />}/> 
 					</Routes>
