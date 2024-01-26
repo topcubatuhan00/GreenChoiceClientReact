@@ -9,6 +9,8 @@ import { Register } from './../components/Register/register';
 import { PasswordRecovery } from './../components/PasswordRecovery/password-recovery';
 import { Profile } from "../components/Profile/profile";
 import { Settings } from "../components/Settings/Settings";
+import { Product } from "../components/Product/Product";
+import ProductDetail from "../components/ProductDetail/productDetail";
 
 export default function Layout() {
 
@@ -38,7 +40,7 @@ export default function Layout() {
 						flag && <Header />
 					}
 				</div>
-				<Col md={12} className="w-100 contentContainer">
+				<Col md={12} className="contentContainer">
 					<Routes>
 						<Route exact path="/" element={<Home />}/> 
 						<Route exact path="/login" element={<Login />}/> 
@@ -46,7 +48,9 @@ export default function Layout() {
 						<Route exact path="/password-recovery" element={<PasswordRecovery />}/> 
 						<Route exact path="/settings" element={<Settings />}/> 
 						<Route exact path="/profile" element={<Profile />}/> 
-						<Route exact path="/product" element={<Profile />}/> 
+						<Route exact path="/product" element={<Product />}/> 
+						<Route exact path="/product" element={<Product />}/> 
+						<Route exact path="/product/:id" element={<ProductDetail />}/> 
 					</Routes>
 				</Col>
 				{/* <div className="m-0 p-0">
